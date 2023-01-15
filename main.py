@@ -5,6 +5,7 @@ import uvicorn
 import hashlib
 import random
 from time import time
+from datetime import datetime as dt
 from const import *
 from loguru import logger
 from controller import Controller
@@ -27,9 +28,11 @@ def login(response: Response, request: Request):
     random_value = str(random.random())
     client_host = request.client.host
     
-    token = hashlib.sha256(f'{time_now}{random_value}{client_host}').hexdigest()
+    token = hashlib.sha256(f'{time_now}{random_value}{client_host}'.encode('utf-8')).hexdigest()
     response.set_cookie(key='token', value=token)
     response.set_cookie(key='last_ip', value=client_host)
+    
+    controller.db.add_value('tokens', None, token, str(dt.now()).split('.')[0], None, client_host, True)
     
     return {'sucscess'}
 

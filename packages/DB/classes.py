@@ -42,3 +42,6 @@ class DB:
     def start(self, **keys_for_db_connection) -> dict[str: bool]:
         self.connect_to_db(*keys_for_db_connection)
         return self.update_configure()
+    
+    def add_value(self, tabel_name: str, *values) -> None:
+        self.s_db.add_value(tabel_name, *values)
