@@ -1,7 +1,7 @@
 import sqlite3
 
 
-class SourseDB:
+class Sourse_db:
     def __init__(self, base_name: str) -> None:
         self.base = sqlite3.connect(base_name, check_same_thread=False)
         self.cur = self.base.cursor()

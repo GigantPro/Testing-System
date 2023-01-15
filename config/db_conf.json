@@ -1,0 +1,11 @@
+{
+    "tokens": [
+        "id INTEGER",
+        "token",
+        "set_time",
+        "accaunt_id",
+        "ip",
+        "active",
+        "PRIMARY KEY(\"id\" AUTOINCREMENT)"
+    ]
+}

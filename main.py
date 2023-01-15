@@ -1,10 +1,15 @@
+import socket
 from fastapi import FastAPI
 from fastapi import FastAPI, Response, Request
 import uvicorn
 import hashlib
 import random
 from time import time
+from const import *
+from loguru import logger
+from controller import Controller
 
+controller = Controller()
 
 app = FastAPI()
 
@@ -28,5 +33,19 @@ def login(response: Response, request: Request):
     
     return {'sucscess'}
 
+
+
+
 if __name__ == '__main__':
-    uvicorn.run('main:app', port=8000, host='127.0.0.1', reload=True)
+    ip = IP
+    
+    if not ip:
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+            try:
+                s.connect(("8.8.8.8", 80))
+                ip = s.getsockname()[0]
+            except:
+                logger.warning('ERROR: Нет подключение к интернету. Повторная попытка через 5 сек.')
+                time.sleep(5)
+    
+    uvicorn.run('main:app', port=8000, host=ip, reload=True)

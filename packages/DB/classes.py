@@ -1,9 +1,9 @@
 import sqlite3
-from .scripts.sourse_db import SourseDB
+from .scripts.sourse_db import Sourse_db
 
 
 class DB:
-    def __init__(self, *, config: dict[str: [str]]=None, db_name: str=None) -> None:
+    def __init__(self, config: dict[str: [str]], db_name: str, *args, **kwargs) -> None:
         self.config = config
         self.db_name = db_name
         
@@ -14,7 +14,7 @@ class DB:
         self.base = sqlite3.connect(self.db_name, *keys_for_db_connection)
         self.cur = self.base.cursor()
         
-        self.SourseDB = SourseDB(self.db_name)
+        self.s_db = Sourse_db(self.db_name)
         
         return True
         
@@ -25,10 +25,20 @@ class DB:
         res = {}
     
         for table in self.config:
-            if self.SourseDB.sourse_request(f"SHOW TABLES LIKE '{table}'").fetchone():
+            try:
+                self.s_db.sourse_request(f"SELECT * FROM {table} LIMIT 1")
+            except: 
+                self.s_db.create_table(table, *self.config[table])
+                res[table] = True
+            else:
                 res[table] = False
-                continue
-            self.SourseDB.create_table(table, *self.config[table])
-            res[table] = True
             
         return res
+
+    def change_config(self, new_config: dict[str: [str]]) -> dict[str: bool]:
+        self.config = new_config
+        return self.update_configure()
+    
+    def start(self, **keys_for_db_connection) -> dict[str: bool]:
+        self.connect_to_db(*keys_for_db_connection)
+        return self.update_configure()
