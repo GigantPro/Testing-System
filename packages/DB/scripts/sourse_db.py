@@ -1,7 +1,22 @@
 import sqlite3
+# from sqlalchemy import create_engine
+# from sqlalchemy.ext.declarative import declarative_base
+# from sqlalchemy.orm import sessionmaker
 
 
 class Sourse_db:
+    # def __init__(self, base_name: str) -> None:
+    #     SQLALCHEMY_DATABASE_URL = f"sqlite:///{base_name}"
+    #     # SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"  Потом юзать, пока что не надо
+        
+
+    #     self.engine = create_engine(
+    #         SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+    #     )
+    #     self.SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=self.engine)
+
+    #     self.Base = declarative_base()
+    
     def __init__(self, base_name: str) -> None:
         self.base = sqlite3.connect(base_name, check_same_thread=False)
         self.cur = self.base.cursor()

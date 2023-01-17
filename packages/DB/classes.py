@@ -2,10 +2,11 @@ import sqlite3
 from .scripts.sourse_db import Sourse_db
 
 
-class DB:
+class DB(Sourse_db):
     def __init__(self, config: dict[str: [str]], db_name: str, *args, **kwargs) -> None:
+        super().__init__(db_name)
         self.config = config
-        self.db_name = db_name
+        self.db_name = db_name        
         
     def connect_to_db(self, **keys_for_db_connection) -> bool:
         if not self.db_name:
@@ -32,7 +33,7 @@ class DB:
                 res[table] = True
             else:
                 res[table] = False
-            
+                
         return res
 
     def change_config(self, new_config: dict[str: [str]]) -> dict[str: bool]:
@@ -42,6 +43,3 @@ class DB:
     def start(self, **keys_for_db_connection) -> dict[str: bool]:
         self.connect_to_db(*keys_for_db_connection)
         return self.update_configure()
-    
-    def add_value(self, tabel_name: str, *values) -> None:
-        self.s_db.add_value(tabel_name, *values)

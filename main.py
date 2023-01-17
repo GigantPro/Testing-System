@@ -1,5 +1,5 @@
 import socket
-from fastapi import FastAPI
+from fastapi import Cookie, FastAPI
 from fastapi import FastAPI, Response, Request
 import uvicorn
 import hashlib
@@ -9,6 +9,7 @@ from datetime import datetime as dt
 from const import *
 from loguru import logger
 from controller import Controller
+from fastapi.responses import RedirectResponse, PlainTextResponse
 
 controller = Controller()
 
@@ -16,14 +17,23 @@ app = FastAPI()
 
 @app.get('/')
 def read_root():
-    return {'not usable'}
+    return RedirectResponse("/docs")
 
 @app.get('/items/{item_id}')
 def read_item(item_id: int, q: str = None):
     return {"item_id": item_id, "q": q}
 
 @app.post('/init')
-def login(response: Response, request: Request):
+def login(response: Response, request: Request, token=Cookie()):
+    if token:
+        res = controller.db.read_line('tokens', 'token', token)
+        if res:
+            if token == res[1] and res[5] == True:
+                response.set_cookie(key='last_ip', value=client_host)  
+                print(1)
+                return {'sucscess'}
+    
+    
     time_now = time()
     random_value = str(random.random())
     client_host = request.client.host
