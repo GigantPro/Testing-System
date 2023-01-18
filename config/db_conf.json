@@ -7,5 +7,10 @@
         "ip",
         "active",
         "PRIMARY KEY(\"id\" AUTOINCREMENT)"
+    ],
+    "bd": [
+        "admin",
+        "qwert",
+        5432
     ]
 }
