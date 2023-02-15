@@ -62,3 +62,8 @@ if __name__ == '__main__':
                 time.sleep(5)
     
     uvicorn.run('main:app', port=8000, host=ip, reload=True)
+
+
+class WEB_parser:
+    def __init__(self) -> None:
+        pass

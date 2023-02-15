@@ -1,16 +1,7 @@
 {
-    "tokens": [
-        "id INTEGER",
-        "token",
-        "set_time",
-        "accaunt_id",
-        "ip",
-        "active",
-        "PRIMARY KEY(\"id\" AUTOINCREMENT)"
-    ],
-    "bd": [
-        "admin",
-        "qwert",
-        5432
-    ]
+    "IP": "localhost",
+    "USER_NAME": "postgres",
+    "PASSWORD": "Pochtagig",
+    "PORT": 5432,
+    "BD_NAME": "testing_system_base"
 }
